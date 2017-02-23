@@ -1,0 +1,3 @@
+[submodule "src/cc-slave"]
+	path = src/cc-slave
+	url = https://github.com/moddevices/cc-slave

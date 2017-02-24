@@ -4,10 +4,10 @@
 
 This library requires:
 
-* [TimerOne](https://code.google.com/p/arduino-timerone/downloads/list)
+* [TimerOne](http://playground.arduino.cc/Code/Timer1)
 
 Go to [releases](https://github.com/moddevices/cc-arduino-lib/releases) and download
-the last version of the ControlChain.zip file.
+the last version of the **ControlChain.zip** file.
 After download it, check [this](https://www.arduino.cc/en/guide/libraries#toc4)
 Arduino documentation to see how to install a new library.
 

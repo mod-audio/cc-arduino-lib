@@ -38,7 +38,8 @@ void setup()
     // define device name (1st parameter) and its URI (2nd parameter)
     // the URI must be an unique identifier for your device. A good practice
     // is to use a URL pointing to your project's code or documentation
-    cc_device_t *device = cc.newDevice("Button", "uri:Button");
+    const char *uri = "https://github.com/moddevices/cc-arduino-lib/tree/master/examples/Button";
+    cc_device_t *device = cc.newDevice("Button", uri);
 
     // configure actuator
     cc_actuator_config_t actuator_config;

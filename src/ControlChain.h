@@ -37,7 +37,7 @@ class ControlChain {
     private:
         static void responseCB(void *arg)
         {
-            cc_data_t *response = arg;
+            cc_data_t *response = (cc_data_t *) arg;
             Serial.write(response->data, response->size);
         }
 };

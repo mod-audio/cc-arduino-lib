@@ -4,7 +4,14 @@
 ****************************************************************************************************
 */
 
+#ifdef ARDUINO_ARCH_AVR
 #include <TimerOne.h>
+#endif
+
+#ifdef ARDUINO_ARCH_SAM
+#include <DueTimer.h>
+#endif
+
 #include "timer.h"
 
 
@@ -59,7 +66,10 @@ static void timer1_callback(void)
 
 void timer_init(void (*callback)(void))
 {
+#ifdef ARDUINO_ARCH_AVR
     Timer1.initialize();
+#endif
+
     Timer1.attachInterrupt(timer1_callback);
     Timer1.stop();
     g_callback = callback;

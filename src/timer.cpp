@@ -80,3 +80,8 @@ void timer_set(uint32_t time_ms)
     Timer1.setPeriod(time_ms*1000);
     Timer1.start();
 }
+
+void delay_us(uint32_t time_us)
+{
+    delayMicroseconds(time_us);
+}

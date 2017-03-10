@@ -1,14 +1,23 @@
 #include <stdint.h>
 #include "control_chain.h"
 
+#define TX_DRIVER_PIN   2
+
 class ControlChain {
     public:
         void init()
         {
             // pin 2 is used to enable transceiver
-            pinMode(2, OUTPUT);
-            digitalWrite(2, HIGH);
-            delay(1);
+            pinMode(TX_DRIVER_PIN, OUTPUT);
+            digitalWrite(TX_DRIVER_PIN, LOW);
+
+            // generate seed by reading ADC
+            int seed = 0;
+            for (int i = 0; i < 5; i++)
+                seed ^= analogRead(i);
+
+            // init random generator
+            srand(seed);
 
             Serial.begin(CC_BAUD_RATE);
             cc_init(responseCB, 0);
@@ -37,8 +46,18 @@ class ControlChain {
     private:
         static void responseCB(void *arg)
         {
+            // enable driver
+            digitalWrite(TX_DRIVER_PIN, HIGH);
+
+            // wait driver to enable
+            for (volatile int delay = 0; delay < 100; delay++);
+
             cc_data_t *response = (cc_data_t *) arg;
             Serial.write(response->data, response->size);
+            Serial.flush();
+
+            // disable driver
+            digitalWrite(TX_DRIVER_PIN, LOW);
         }
 };
 

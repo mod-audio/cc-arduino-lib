@@ -63,11 +63,14 @@ class ControlChain {
 
 void serialEvent(void)
 {
-    uint8_t buffer[128];
+    uint8_t buffer[32];
 
     cc_data_t received;
     received.data = buffer;
     received.size = Serial.available();
+
+    if (received.size > sizeof(buffer))
+        received.size = sizeof(buffer);
 
     if (received.size > 0)
     {

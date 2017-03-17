@@ -4,10 +4,11 @@
 
 #### Dependencies
 
-* [TimerOne](http://playground.arduino.cc/Code/Timer1)
-* [DueTimer](https://github.com/ivanseidel/DueTimer)
+* Arduino IDE v1.5 or greater
+* [TimerOne](http://playground.arduino.cc/Code/Timer1) (required for Arduino Uno)
+* [DueTimer](https://github.com/ivanseidel/DueTimer) (required for Arduino Due)
 
-See [here](https://www.arduino.cc/en/guide/libraries#toc3) how to install these
+See [here](https://www.arduino.cc/en/guide/libraries#toc3) how to install those
 libraries using the Library Manager.
 
 #### This library

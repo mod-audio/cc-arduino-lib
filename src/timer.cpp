@@ -12,6 +12,7 @@
 #include <DueTimer.h>
 #endif
 
+#include <Arduino.h>
 #include "timer.h"
 
 

@@ -4,7 +4,7 @@
 // define firmware version
 #define CC_FIRMWARE_MAJOR   0
 #define CC_FIRMWARE_MINOR   0
-#define CC_FIRMWARE_MICRO   3
+#define CC_FIRMWARE_MICRO   5
 
 ////////// Arduino Uno
 #ifdef ARDUINO_AVR_UNO
@@ -15,6 +15,9 @@
 #define CC_MAX_ACTUATORS    4
 // maximum number of assignments that can be created per actuator
 #define CC_MAX_ASSIGNMENTS  1
+
+// define the size of the queue used to store the updates before send them
+#define CC_UPDATES_FIFO_SIZE    10
 
 // disable string support
 #define CC_STRING_NOT_SUPPORTED
@@ -29,6 +32,9 @@
 // maximum number of assignments that can be created per actuator
 #define CC_MAX_ASSIGNMENTS  1
 
+// define the size of the queue used to store the updates before send them
+#define CC_UPDATES_FIFO_SIZE    20
+
 ////////// All other Arduinos
 #else
 
@@ -38,6 +44,9 @@
 #define CC_MAX_ACTUATORS    2
 // maximum number of assignments that can be created per actuator
 #define CC_MAX_ASSIGNMENTS  1
+
+// define the size of the queue used to store the updates before send them
+#define CC_UPDATES_FIFO_SIZE    5
 
 // disable string support
 #define CC_STRING_NOT_SUPPORTED

@@ -53,8 +53,11 @@ class ControlChain {
             for (volatile int delay = 0; delay < 100; delay++);
 
             cc_data_t *response = (cc_data_t *) arg;
-            Serial.write(response->data, response->size);
-            Serial.flush();
+            for (int i = 0; i < response->size; i++)
+            {
+                Serial.write(response->data[i]);
+                Serial.flush();
+            }
 
             // disable driver
             digitalWrite(TX_DRIVER_PIN, LOW);

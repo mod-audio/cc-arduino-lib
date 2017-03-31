@@ -5,14 +5,15 @@
     toggle, trigger or bypass parameter of any effect running in your MOD.
 
     The circuit:
-        * 10K resistor connecting pin 7 to +5V
-        * Push button connecting pin 7 to GND
+        * Connect a push button from pin 7 to GND
 
     There are two options to connect the Arduino to your MOD:
         1. Using the regular Arduino USB cable
         2. Using a Control Chain Arduino shield and an Ethernet cable
 
     You should use the first case only in the development stage.
+
+    Note: Debounce code from: https://www.arduino.cc/en/tutorial/debounce
 */
 
 #include <ControlChain.h>
@@ -21,14 +22,22 @@ ControlChain cc;
 float buttonValue;
 int ledPin = 13, buttonPin = 7;
 
-void setup()
-{
+int buttonState;             // the current reading from the input pin
+int lastButtonState = HIGH;  // the previous reading from the input pin
+
+// the following variables are unsigned long's because the time, measured in miliseconds,
+// will quickly become a bigger number than can be stored in an int.
+unsigned long lastDebounceTime = 0;  // the last time the output pin was toggled
+unsigned long debounceDelay = 20;    // the debounce time; increase if the output flickers
+
+void setup() {
     // configure led
     pinMode(ledPin, OUTPUT);
     digitalWrite(ledPin, LOW);
 
-    // configure button
+    // configure button pin as input and enable internal pullup
     pinMode(buttonPin, INPUT);
+    digitalWrite(buttonPin, HIGH);
 
     // initialize control chain
     // note that control chain requires the Serial 0 and pin 2, which means
@@ -57,22 +66,60 @@ void setup()
     cc.addActuator(device, actuator);
 }
 
-void loop()
-{
-    // read the button
-    if (digitalRead(buttonPin) == LOW) {
-        delay(10);
-        if (digitalRead(buttonPin) == LOW) {
-            buttonValue = 1.0;
-            digitalWrite(ledPin, HIGH);
-        }
-    } else if (buttonValue == 1.0) {
-        delay(5);
-        if (digitalRead(buttonPin) == HIGH) {
-            buttonValue = 0.0;
-            digitalWrite(ledPin, LOW);
+int readButton(void) {
+    // read the state of the switch into a local variable:
+    int reading = digitalRead(buttonPin);
+
+    // check to see if you just pressed the button
+    // (i.e. the input went from LOW to HIGH),  and you've waited
+    // long enough since the last press to ignore any noise:
+
+    // If the switch changed, due to noise or pressing:
+    if (reading != lastButtonState) {
+        // reset the debouncing timer
+        lastDebounceTime = millis();
+    }
+
+    if ((millis() - lastDebounceTime) > debounceDelay) {
+        // whatever the reading is at, it's been there for longer
+        // than the debounce delay, so take it as the actual current state:
+
+        // if the button state has changed:
+        if (reading != buttonState) {
+            buttonState = reading;
+
+            // save button last state
+            lastButtonState = reading;
+
+            // button pressed
+            if (buttonState == LOW) {
+                return 1;
+            // button released
+            } else {
+                return -1;
+            }
         }
     }
+
+    lastButtonState = reading;
+    return 0;
+}
+
+void loop() {
+    // read button state
+    // state =  1 -> button pressed
+    // state = -1 -> button released
+    // state =  0 -> same state as before (no change)
+    int state = readButton();
+    if (state == 1) {
+        buttonValue = 1.0;
+        digitalWrite(ledPin, HIGH);
+    } else if (state == -1) {
+        buttonValue = 0.0;
+        digitalWrite(ledPin, LOW);
+    }
+
+    // Note: The code of your device should not block the loop or have long delays (> 1ms)
 
     // this function always must be placed in your program loop
     // it's responsible for the control chain processing

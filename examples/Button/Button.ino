@@ -8,10 +8,13 @@
         * Connect a push button from pin 7 to GND
 
     There are two options to connect the Arduino to your MOD:
-        1. Using the regular Arduino USB cable
-        2. Using a Control Chain Arduino shield and an Ethernet cable
+        1. Using a Control Chain Arduino shield and an Ethernet cable
+        2. Using the regular Arduino USB cable
 
-    You should use the first case only in the development stage.
+    You should use the last case only in the development stage.
+
+    For more information about Control Chain, please check:
+    http://wiki.moddevices.com/wiki/Control_Chain
 
     Note: Debounce code from: https://www.arduino.cc/en/tutorial/debounce
 */

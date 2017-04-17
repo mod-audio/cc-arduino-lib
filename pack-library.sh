@@ -1,8 +1,9 @@
 #!/bin/bash
 
 OUT_DIR=.out
+ZIP_FILE=../ControlChain.zip
 
-rm -rf ${OUT_DIR}
+rm -rf ${OUT_DIR} ${ZIP_FILE}
 mkdir -p ${OUT_DIR}
 
 # get version
@@ -18,4 +19,4 @@ cp src/*.h src/*.cpp ${OUT_DIR}
 cp src/cc-slave/src/* ${OUT_DIR}
 cp -r examples ${OUT_DIR}
 cd ${OUT_DIR}
-zip -r ../ControlChain.zip *
+zip -r ${ZIP_FILE} *

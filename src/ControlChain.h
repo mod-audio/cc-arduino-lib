@@ -19,7 +19,7 @@ class ControlChain {
             // init random generator
             srand(seed);
 
-            Serial.begin(CC_BAUD_RATE);
+            Serial.begin(CC_BAUD_RATE_FALLBACK);
             cc_init(responseCB, 0);
         }
 

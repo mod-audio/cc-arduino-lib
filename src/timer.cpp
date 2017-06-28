@@ -76,9 +76,9 @@ void timer_init(void (*callback)(void))
     g_callback = callback;
 }
 
-void timer_set(uint32_t time_ms)
+void timer_set(uint32_t time_us)
 {
-    Timer1.setPeriod(time_ms*1000);
+    Timer1.setPeriod(time_us);
     Timer1.start();
 }
 

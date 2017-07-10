@@ -17,10 +17,10 @@
 */
 
 #include <ControlChain.h>
+#define amountOfPorts 1
 
 ControlChain cc;
 float portValues[amountOfPorts];
-int amountOfPorts = 1;
 
 void setup() {
     // initialize control chain

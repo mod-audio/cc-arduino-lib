@@ -22,3 +22,7 @@ Arduino documentation to see how to import a new library.
 
 Once the library is installed, go to `File > Examples > Control Chain`, choose one
 of the examples and follow the instructions on the header of the file.
+
+## Taken resources (peripherals)
+
+This library make use of the pins 0 to 2, where pins 0 and 1 are used as `Serial` and pin 2 as digital I/O. Timer 1 is also used by this library.

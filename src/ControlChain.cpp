@@ -1,6 +1,10 @@
 #include <Arduino.h>
 #include "ControlChain.h"
 
+void (*ControlChain::assignment_cb)(cc_assignment_t *) = 0;
+void (*ControlChain::unassignment_cb)(int) = 0;
+void (*ControlChain::update_cb)(cc_assignment_t *) = 0;
+
 void ControlChain::begin() {
     // pin 2 is used to enable transceiver
     pinMode(TX_DRIVER_PIN, OUTPUT);
@@ -15,7 +19,7 @@ void ControlChain::begin() {
     srand(seed);
 
     Serial.begin(CC_BAUD_RATE_FALLBACK);
-    cc_init(responseCB, 0);
+    cc_init(responseCB, eventsCB);
 }
 
 void ControlChain::run() {
@@ -34,6 +38,16 @@ void ControlChain::addActuator(cc_device_t *device, cc_actuator_t *actuator) {
     cc_device_actuator_add(device, actuator);
 }
 
+void ControlChain::setEventCallback(int event_id, void (*function_cb)(void *arg)) {
+    if (event_id == CC_EV_ASSIGNMENT) {
+        assignment_cb = function_cb;
+    } else if (event_id == CC_EV_UNASSIGNMENT) {
+        unassignment_cb = function_cb;
+    } else if (event_id == CC_EV_UPDATE) {
+        update_cb = function_cb;
+    }
+}
+
 void ControlChain::responseCB(void *arg) {
     // enable driver
     digitalWrite(TX_DRIVER_PIN, HIGH);
@@ -49,6 +63,28 @@ void ControlChain::responseCB(void *arg) {
 
     // disable driver
     digitalWrite(TX_DRIVER_PIN, LOW);
+}
+
+void ControlChain::eventsCB(void *arg) {
+    cc_event_t *event = arg;
+
+    if (event->id == CC_EV_ASSIGNMENT) {
+        cc_assignment_t *assignment = event->data;
+
+        if (assignment_cb)
+            assignment_cb(assignment);
+    } else if (event->id == CC_EV_UNASSIGNMENT) {
+        int *act_id = event->data;
+        int actuator_id = *act_id;
+
+        if (unassignment_cb)
+            unassignment_cb(actuator_id);
+    } else if (event->id == CC_EV_UPDATE) {
+        cc_assignment_t *assignment = event->data;
+
+        if (update_cb)
+            update_cb(assignment);
+    }
 }
 
 void serialEvent(void) {

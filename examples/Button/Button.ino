@@ -67,6 +67,25 @@ void setup() {
     cc_actuator_t *actuator;
     actuator = cc.newActuator(&actuator_config);
     cc.addActuator(device, actuator);
+
+    // set a callback function for the update event
+    // this means that the updateLED function will be called by the
+    // library every time there is an assignment update on this device
+    cc.setEventCallback(CC_EV_UPDATE, updateLED);
+
+    // the currently possible event callbacks are:
+    // CC_EV_ASSIGNMENT, CC_EV_UNASSIGNMENT and CC_EV_UPDATE
+}
+
+void updateLED(cc_assignment_t *assignment) {
+    // check if assignment mode is toggle
+    // turn led on/off according the assignment value
+    if (assignment->mode & CC_MODE_TOGGLE) {
+        if (assignment->value > 0.0)
+            digitalWrite(ledPin, HIGH);
+        else
+            digitalWrite(ledPin, LOW);
+    }
 }
 
 int readButton(void) {
@@ -116,10 +135,8 @@ void loop() {
     int state = readButton();
     if (state == 1) {
         buttonValue = 1.0;
-        digitalWrite(ledPin, HIGH);
     } else if (state == -1) {
         buttonValue = 0.0;
-        digitalWrite(ledPin, LOW);
     }
 
     // Note: The code of your device should not block the loop or have long delays (> 1ms)

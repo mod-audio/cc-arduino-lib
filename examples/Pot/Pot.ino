@@ -33,7 +33,7 @@ void setup() {
     // initialize control chain
     // note that control chain requires the Serial 0 and pin 2, which means
     // these peripherals won't be available to be used in your program
-    cc.init();
+    cc.begin();
 
     // define device name (1st parameter) and its URI (2nd parameter)
     // the URI must be an unique identifier for your device. A good practice

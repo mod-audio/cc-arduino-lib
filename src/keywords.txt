@@ -1,0 +1,7 @@
+ControlChain		KEYWORD1
+begin				KEYWORD2
+run					KEYWORD2
+newDevice			KEYWORD2
+newActuator			KEYWORD2
+addActuator			KEYWORD2
+setEventCallback	KEYWORD2

@@ -5,10 +5,10 @@
 #### Dependencies
 
 * Arduino IDE v1.5 or greater
-* [TimerOne](http://playground.arduino.cc/Code/Timer1) (required for Arduino Uno)
-* [DueTimer](https://github.com/ivanseidel/DueTimer) (required for Arduino Due)
+* TimerOne (required for Arduino Uno)
+* DueTimer (required for Arduino Due)
 
-See [here](https://www.arduino.cc/en/guide/libraries#toc3) how to install those
+See [here](https://www.arduino.cc/en/guide/libraries#toc3) how to install the dependencies
 libraries using the Library Manager.
 
 #### This library
@@ -25,4 +25,5 @@ of the examples and follow the instructions on the header of the file.
 
 ## Taken resources (peripherals)
 
-This library make use of the pins 0 to 2, where pins 0 and 1 are used as `Serial` and pin 2 as digital I/O. Timer 1 is also used by this library.
+This library make use of the pins 0 to 2, where pins 0 and 1 are used as `Serial` and
+pin 2 as digital I/O. Timer 1 is also used by this library.

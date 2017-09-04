@@ -3,8 +3,8 @@
 
 // define firmware version
 #define CC_FIRMWARE_MAJOR   0
-#define CC_FIRMWARE_MINOR   4
-#define CC_FIRMWARE_MICRO   1
+#define CC_FIRMWARE_MINOR   5
+#define CC_FIRMWARE_MICRO   0
 
 ////////// Arduino Uno
 #ifdef ARDUINO_AVR_UNO

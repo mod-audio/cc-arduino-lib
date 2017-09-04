@@ -1,4 +1,3 @@
-#include <stdint.h>
 #include "control_chain.h"
 
 #define TX_DRIVER_PIN   2

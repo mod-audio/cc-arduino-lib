@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include "ControlChain.h"
+#include "ReUART.h"
 
 void (*ControlChain::assignment_cb)(cc_assignment_t *) = 0;
 void (*ControlChain::unassignment_cb)(int) = 0;
@@ -18,7 +19,7 @@ void ControlChain::begin() {
     // init random generator
     srand(seed);
 
-    Serial.begin(CC_BAUD_RATE_FALLBACK);
+    CCSerial.begin(CC_BAUD_RATE_FALLBACK);
     cc_init(responseCB, eventsCB);
 }
 
@@ -49,20 +50,8 @@ void ControlChain::setEventCallback(int event_id, void (*function_cb)(void *arg)
 }
 
 void ControlChain::responseCB(void *arg) {
-    // enable driver
-    digitalWrite(TX_DRIVER_PIN, HIGH);
-
-    // wait driver to enable
-    for (volatile int delay = 0; delay < 100; delay++);
-
     cc_data_t *response = (cc_data_t *) arg;
-    for (int i = 0; i < response->size; i++) {
-        Serial.write(response->data[i]);
-        Serial.flush();
-    }
-
-    // disable driver
-    digitalWrite(TX_DRIVER_PIN, LOW);
+    CCSerial.write(response->data, response->size);
 }
 
 void ControlChain::eventsCB(void *arg) {
@@ -84,21 +73,5 @@ void ControlChain::eventsCB(void *arg) {
 
         if (update_cb)
             update_cb(assignment);
-    }
-}
-
-void serialEvent(void) {
-    uint8_t buffer[32];
-
-    cc_data_t received;
-    received.data = buffer;
-    received.size = Serial.available();
-
-    if (received.size > sizeof(buffer))
-        received.size = sizeof(buffer);
-
-    if (received.size > 0) {
-        Serial.readBytes(received.data, received.size);
-        cc_parse(&received);
     }
 }

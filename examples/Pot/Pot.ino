@@ -6,13 +6,10 @@
 
     The circuit:
         * Connect the center pin of the potentiometer to the pin A0
-        * Connect another pin (anyone) to IOREF pin and the last one to GND
+        * Connect another pin (anyone) to IOREF pin and the third one to GND
 
-    There are two options to connect the Arduino to your MOD:
-        1. Using a Control Chain Arduino shield and an Ethernet cable
-        2. Using the regular Arduino USB cable
-
-    You should use the last case only in the development stage.
+    After upload this example to your Arduino connect it to the MOD using
+    the Control Chain shield.
 
     For more information about Control Chain, please check:
     http://wiki.moddevices.com/wiki/Control_Chain
@@ -58,9 +55,8 @@ void setup() {
 }
 
 void loop() {
+    // read the pot
     potValue = analogRead(potPin);
-
-    // Note: The code of your device should not block the loop or have long delays (> 1ms)
 
     // this function always must be placed in your program loop
     // it's responsible for the control chain processing

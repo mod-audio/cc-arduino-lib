@@ -1,17 +1,15 @@
 /*
     Control Chain - Button
 
-    This is a very simple example of how to use a push button to control a
-    toggle, trigger or bypass parameter of any effect running in your MOD.
+    This example shows how to use a push button to control a toggle, trigger
+    or bypass parameter of any effect running in your MOD. It also explains how
+    to use the control chain event callback making use of the LED on the board.
 
     The circuit:
         * Connect a push button from pin 7 to GND
 
-    There are two options to connect the Arduino to your MOD:
-        1. Using a Control Chain Arduino shield and an Ethernet cable
-        2. Using the regular Arduino USB cable
-
-    You should use the last case only in the development stage.
+    After upload this example to your Arduino connect it to the MOD using
+    the Control Chain shield.
 
     For more information about Control Chain, please check:
     http://wiki.moddevices.com/wiki/Control_Chain
@@ -138,8 +136,6 @@ void loop() {
     } else if (state == -1) {
         buttonValue = 0.0;
     }
-
-    // Note: The code of your device should not block the loop or have long delays (> 1ms)
 
     // this function always must be placed in your program loop
     // it's responsible for the control chain processing

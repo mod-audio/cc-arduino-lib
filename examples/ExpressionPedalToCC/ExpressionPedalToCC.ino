@@ -86,8 +86,6 @@ void loop() {
         portValues[i] = analogRead(i);
     }
 
-    // Note: The code of your device should not block the loop or have long delays (> 1ms)
-
     // this function always must be placed in your program loop
     // it's responsible for the control chain processing
     cc.run();

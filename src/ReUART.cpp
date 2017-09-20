@@ -10,7 +10,9 @@ inline void uart_byte_recv(unsigned char b)
 ////////////////////////////////////////////////////////////////////////////////
 // AVR architecture
 
-#ifdef __AVR__
+#ifdef ARDUINO_ARCH_AVR
+
+#if defined(HAVE_HWSERIAL0)
 
 #include <HardwareSerial_private.h>
 
@@ -64,12 +66,14 @@ size_t HwSerial::write(uint8_t c)
     return HardwareSerial::write(c);
 }
 
-#endif // end of __AVR__
+#endif // HAVE_HWSERIAL0
+
+#endif // end of ARDUINO_ARCH_AVR
 
 ////////////////////////////////////////////////////////////////////////////////
-// ARM architecture
+// SAM architecture (ARM cortex m3)
 
-#ifdef __SAM3X8E__
+#ifdef ARDUINO_ARCH_SAM
 
 #include <UARTClass.h>
 #include <RingBuffer.h>
@@ -79,12 +83,10 @@ static RingBuffer rx_buffer, tx_buffer;
 HwSerial CCSerial(UART, UART_IRQn, ID_UART, &rx_buffer, &tx_buffer);
 
 // waiting for 'https://github.com/arduino/ArduinoCore-sam/pull/1' be merged
-#if 0
 void UART_Handler(void)
 {
     CCSerial.IrqHandler();
 }
-#endif
 
 void HwSerial::IrqHandler( void )
 {
@@ -126,4 +128,11 @@ size_t HwSerial::write(const uint8_t c)
     return UARTClass::write(c);
 }
 
-#endif // end of __SAM3X8E__
+#endif // end of ARDUINO_ARCH_SAM
+
+////////////////////////////////////////////////////////////////////////////////
+// SAMD architecture (ARM cortex m0)
+
+#ifdef ARDUINO_ARCH_SAMD
+// TODO
+#endif // end of ARDUINO_ARCH_SAMD

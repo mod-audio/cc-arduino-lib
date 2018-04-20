@@ -40,14 +40,15 @@ and manually apply the required changes while the pull request isn't merged to t
 
 You will find that file in the Arduino installation folder, which depends on the OS you have. Once
 you find out, the path to the file should be something similar to
-**packages/hardware/sam/1.6.11/variants/arduino_due_x/variant.cpp**.
+**packages/arduino/hardware/sam/1.6.11/variants/arduino_due_x/variant.cpp**.
 
 ## How to use
 
 Once the library is installed, go to `File > Examples > Control Chain`, choose one
 of the examples and follow the instructions on the header of the file.
 
-## Taken resources (peripherals)
+## Used resources (peripherals)
 
 This library make use of the pins 0 to 2, where pins 0 and 1 are used as `Serial` and
-pin 2 as digital I/O. Timer 1 is also used by this library.
+pin 2 as digital I/O. Timer 1 is also used by this library. This means that those resources
+won't be available for you to use in your application.

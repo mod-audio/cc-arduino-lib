@@ -103,11 +103,13 @@ void HwSerial::IrqHandler( void )
             _tx_buffer->_iTail = (unsigned int)(_tx_buffer->_iTail + 1) % SERIAL_BUFFER_SIZE;
         }
         else {
-            // Mask off transmit interrupt so we don't get it anymore
-            _pUart->UART_IDR = UART_IDR_TXRDY;
+            if ((status & UART_SR_TXEMPTY) == UART_SR_TXEMPTY) {
+                // Mask off transmit interrupt so we don't get it anymore
+                _pUart->UART_IDR = UART_IDR_TXRDY;
 
-            // disable driver
-            digitalWrite(TX_DRIVER_PIN, HIGH);
+                // disable driver
+                digitalWrite(TX_DRIVER_PIN, LOW);
+            }
         }
     }
 
@@ -118,12 +120,11 @@ void HwSerial::IrqHandler( void )
     }
 }
 
-// write one byte to register and wait until it to be send
 size_t HwSerial::write(const uint8_t c)
 {
     // enable driver
     digitalWrite(TX_DRIVER_PIN, HIGH);
-    for (volatile int delay = 0; delay < 100; delay++);
+    for (volatile int delay = 0; delay < 200; delay++);
 
     return UARTClass::write(c);
 }

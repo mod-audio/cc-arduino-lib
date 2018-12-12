@@ -288,7 +288,7 @@ void selectline (int potnumb){
       lcd.print(actuatorValues[potnumb]);
     }
     else {
-      lcd2.print("[ - - 0 - - ] ");
+      lcd2.print("[ - - O - - ] ");
       lcd2.print(actuatorValues[potnumb]);
     }
   break;

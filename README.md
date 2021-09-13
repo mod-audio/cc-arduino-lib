@@ -17,6 +17,8 @@ information.
 See [here](https://www.arduino.cc/en/guide/libraries#toc3) how to install the dependencies
 libraries using the Library Manager.
 
+For both the timer library's, its importent to install them via the Arduino IDE to get the compatible version.
+
 #### This library
 
 Go to [releases](https://github.com/moddevices/cc-arduino-lib/releases) and download
